@@ -123,12 +123,15 @@ class CodeBlock implements ICodeBlock {
     static final Comparator<CodeBlock> Comparator = (o1, o2) -> o1.getFirstCodeLine().compareTo(o2.getFirstCodeLine());
 
     String getCode() {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter, true);
+        StringBuilder outputStringBuilder = new StringBuilder();
+//        StringWriter stringWriter = new StringWriter();
+//        PrintWriter writer = new PrintWriter(stringWriter, true);
         for (String line : lines) {
-            writer.println(line);
+            outputStringBuilder.append(line);
+//            writer.print(line);
         }
 
-        return stringWriter.toString();
+        return outputStringBuilder.toString();
+//        return stringWriter.toString();
     }
 }

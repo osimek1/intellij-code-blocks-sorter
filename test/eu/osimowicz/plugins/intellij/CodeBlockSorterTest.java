@@ -14,154 +14,217 @@ import static org.junit.Assert.*;
 public class CodeBlockSorterTest {
     @Test
     public void getSortedCodeSimpleCoffeeScriptCode() throws Exception {
-        String coffeeScriptCode = "" +
-                "zModule: " + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator") +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator");
+        ArrayList codeLines = new ArrayList<String>() {{
+            add("zModule: \r\n");
+            add("    prop1: \"some text\"\r\n");
+            add("    prop2: 2\r\n");
+            add("        prop3_1: true\r\n");
+            add("aModule: \"simple text\"\r\n");
+            add("cModule: 1\r\n");
+            add("bModule: [\r\n");
+            add("    \"arr1\"\r\n");
+            add("    \"arr2\"\r\n");
+            add("]\r\n");
+        }};
 
-        String sortedCoffeeScriptCode = "" +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                "zModule: " + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator");
+        String sortedCoffeeScriptCode = new StringBuilder()
+            .append("aModule: \"simple text\"\r\n")
+            .append("bModule: [\r\n")
+            .append("    \"arr1\"\r\n")
+            .append("    \"arr2\"\r\n")
+            .append("]\r\n")
+            .append("cModule: 1\r\n")
+            .append("zModule: \r\n")
+            .append("    prop1: \"some text\"\r\n")
+            .append("    prop2: 2\r\n")
+            .append("        prop3_1: true\r\n")
+            .toString();
 
         CodeBlockSorter sut = new CodeBlockSorter();
-        List<String> codeLines = new ArrayList<>(Arrays.asList(coffeeScriptCode.split(System.getProperty("line.separator"))));
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
 
     @Test
     public void getSortedCodeCoffeeScriptWithEmptyLines() throws Exception {
-        String coffeeScriptCode = "" +
-                "zModule: " + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator") +
-                System.getProperty("line.separator") +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "    " + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator");
+        ArrayList codeLines = new ArrayList<String>() {{
+            add("zModule: \r\n");
+            add("    prop1: \"some text\"\r\n");
+            add("    prop2: 2\r\n");
+            add("    prop3:\r\n");
+            add("        prop3_1: true\r\n");
+            add("\r\n");
+            add("aModule: \"simple text\"\r\n");
+            add("    \r\n");
+            add("cModule: 1\r\n");
+            add("bModule: [\r\n");
+            add("    \"arr1\"\r\n");
+            add("    \"arr2\"\r\n");
+            add("]\r\n");
+        }};
 
-        String sortedCoffeeScriptCode = "" +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "    " + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                "zModule: " + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator") +
-                System.getProperty("line.separator");
+        String sortedCoffeeScriptCode = new StringBuilder()
+            .append("aModule: \"simple text\"\r\n")
+            .append("    \r\n")
+            .append("bModule: [\r\n")
+            .append("    \"arr1\"\r\n")
+            .append("    \"arr2\"\r\n")
+            .append("]\r\n")
+            .append("cModule: 1\r\n")
+            .append("zModule: \r\n")
+            .append("    prop1: \"some text\"\r\n")
+            .append("    prop2: 2\r\n")
+            .append("    prop3:\r\n")
+            .append("        prop3_1: true\r\n")
+            .append("\r\n")
+            .toString();
 
         CodeBlockSorter sut = new CodeBlockSorter();
-        List<String> codeLines = new ArrayList<>(Arrays.asList(coffeeScriptCode.split(System.getProperty("line.separator"))));
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
+
     @Test
     public void getSortedCodeCoffeeScriptWithEmptyLinesAndJsDoc() throws Exception {
-        String coffeeScriptCode = "" +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc zModule" + System.getProperty("line.separator") +
-                " # @class zModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "zModule: " + System.getProperty("line.separator") +
-                "    ###*" + System.getProperty("line.separator") +
-                "     # Some simple property desc prop1" + System.getProperty("line.separator") +
-                "     # @prop prop1" + System.getProperty("line.separator") +
-                "    ###" + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator") +
-                System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc aModule" + System.getProperty("line.separator") +
-                " # @class aModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "    " + System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc cModule" + System.getProperty("line.separator") +
-                " # @class cModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc bModule" + System.getProperty("line.separator") +
-                " # @class bModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator");
+        ArrayList codeLines = new ArrayList<String>() {{
+            add("###*\r\n");
+            add(" # Some simple class desc zModule\r\n");
+            add(" # @class zModule\r\n");
+            add("###\r\n");
+            add("zModule: \r\n");
+            add("    ###*\r\n");
+            add("     # Some simple property desc prop1\r\n");
+            add("     # @prop prop1\r\n");
+            add("    ###\r\n");
+            add("    prop1: \"some text\"\r\n");
+            add("    prop2: 2\r\n");
+            add("    prop3:\r\n");
+            add("        prop3_1: true\r\n");
+            add("\r\n");
+            add("###*\r\n");
+            add(" # Some simple class desc aModule\r\n");
+            add(" # @class aModule\r\n");
+            add("###\r\n");
+            add("aModule: \"simple text\"\r\n");
+            add("    \r\n");
+            add("###*\r\n");
+            add(" # Some simple class desc cModule\r\n");
+            add(" # @class cModule\r\n");
+            add("###\r\n");
+            add("cModule: 1\r\n");
+            add("\r\n");
+            add("###*\r\n");
+            add(" # Some simple class desc bModule\r\n");
+            add(" # @class bModule\r\n");
+            add("###\r\n");
+            add("bModule: [\r\n");
+            add("    \"arr1\"\r\n");
+            add("    \"arr2\"\r\n");
+            add("]");
+            add("\r\n");
+        }};
 
-        String sortedCoffeeScriptCode = "" +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc aModule" + System.getProperty("line.separator") +
-                " # @class aModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "aModule: \"simple text\"" + System.getProperty("line.separator") +
-                "    " + System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc bModule" + System.getProperty("line.separator") +
-                " # @class bModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "bModule: [" + System.getProperty("line.separator") +
-                "    \"arr1\"" + System.getProperty("line.separator") +
-                "    \"arr2\"" + System.getProperty("line.separator") +
-                "]" + System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc cModule" + System.getProperty("line.separator") +
-                " # @class cModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "cModule: 1" + System.getProperty("line.separator") +
-                System.getProperty("line.separator") +
-                "###*" + System.getProperty("line.separator") +
-                " # Some simple class desc zModule" + System.getProperty("line.separator") +
-                " # @class zModule" + System.getProperty("line.separator") +
-                "###" + System.getProperty("line.separator") +
-                "zModule: " + System.getProperty("line.separator") +
-                "    ###*" + System.getProperty("line.separator") +
-                "     # Some simple property desc prop1" + System.getProperty("line.separator") +
-                "     # @prop prop1" + System.getProperty("line.separator") +
-                "    ###" + System.getProperty("line.separator") +
-                "    prop1: \"some text\"" + System.getProperty("line.separator") +
-                "    prop2: 2" + System.getProperty("line.separator") +
-                "    prop3:" + System.getProperty("line.separator") +
-                "        prop3_1: true" + System.getProperty("line.separator") +
-                System.getProperty("line.separator");
+        String sortedCoffeeScriptCode = new StringBuilder()
+                .append("###*\r\n")
+                .append(" # Some simple class desc aModule\r\n")
+                .append(" # @class aModule\r\n")
+                .append("###\r\n")
+                .append("aModule: \"simple text\"\r\n")
+                .append("    \r\n")
+                .append("###*\r\n")
+                .append(" # Some simple class desc bModule\r\n")
+                .append(" # @class bModule\r\n")
+                .append("###\r\n")
+                .append("bModule: [\r\n")
+                .append("    \"arr1\"\r\n")
+                .append("    \"arr2\"\r\n")
+                .append("]\r\n")
+                .append("###*\r\n")
+                .append(" # Some simple class desc cModule\r\n")
+                .append(" # @class cModule\r\n")
+                .append("###\r\n")
+                .append("cModule: 1\r\n")
+                .append("\r\n")
+                .append("###*\r\n")
+                .append(" # Some simple class desc zModule\r\n")
+                .append(" # @class zModule\r\n")
+                .append("###\r\n")
+                .append("zModule: \r\n")
+                .append("    ###*\r\n")
+                .append("     # Some simple property desc prop1\r\n")
+                .append("     # @prop prop1\r\n")
+                .append("    ###\r\n")
+                .append("    prop1: \"some text\"\r\n")
+                .append("    prop2: 2\r\n")
+                .append("    prop3:\r\n")
+                .append("        prop3_1: true\r\n")
+                .append("\r\n")
+                .toString();
 
         CodeBlockSorter sut = new CodeBlockSorter();
-        List<String> codeLines = new ArrayList<>(Arrays.asList(coffeeScriptCode.split(System.getProperty("line.separator"))));
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
 
+    @Test
+    public void getSortedJsonCodeWithEmptyLines() throws Exception {
+        ArrayList codeLines = new ArrayList<String>() {{
+            add("{\r\n");
+            add("    \"zModule\": {\r\n");
+            add("        \"prop1\": \"some text\"\r\n");
+            add("        \"prop2\": 2\r\n");
+            add("        \"prop3\": {\r\n");
+            add("            \"prop3_1\": true\r\n");
+            add("        }\r\n");
+            add("    }\r\n");
+            add("}\r\n");
+            add("{\r\n");
+            add("\r\n");
+            add("    \"aModule\": \"simple text\"\r\n");
+            add("}\r\n");
+            add("    \r\n");
+            add("{\r\n");
+            add("    \"cModule\": 1\r\n");
+            add("}\r\n");
+            add("{\r\n");
+            add("    \"bModule\": [\r\n");
+            add("        \"arr1\"\r\n");
+            add("        \"arr2\"\r\n");
+            add("    ]\r\n");
+            add("}\r\n");
+            add("\r\n");
+        }};
+
+        String sortedCoffeeScriptCode = new StringBuilder()
+                .append("{\r\n")
+                .append("\r\n")
+                .append("    \"aModule\": \"simple text\"\r\n")
+                .append("}\r\n")
+                .append("    \r\n")
+                .append("{\r\n")
+                .append("    \"bModule\": [\r\n")
+                .append("        \"arr1\"\r\n")
+                .append("        \"arr2\"\r\n")
+                .append("    ]\r\n")
+                .append("}\r\n")
+                .append("\r\n")
+                .append("{\r\n")
+                .append("    \"cModule\": 1\r\n")
+                .append("}\r\n")
+                .append("{\r\n")
+                .append("    \"zModule\": {\r\n")
+                .append("        \"prop1\": \"some text\"\r\n")
+                .append("        \"prop2\": 2\r\n")
+                .append("        \"prop3\": {\r\n")
+                .append("            \"prop3_1\": true\r\n")
+                .append("        }\r\n")
+                .append("    }\r\n")
+                .append("}\r\n")
+                .toString();
+
+        CodeBlockSorter sut = new CodeBlockSorter();
+        String sortedText = sut.getSortedCode(codeLines);
+        assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
+    }
 }
 
