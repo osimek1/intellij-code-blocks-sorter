@@ -33,13 +33,10 @@ class CodeBlock implements ICodeBlock {
     void addLine(String line) {
         if (addCommentLine(line)) return;
 
+        // @TODO extract this logic
         isCommentBlockOpened = isCommentBlockOpened || LineParserHelpers.isStartBlockComment(line);
 
-        if (isCommentBlockOpened) {
-            if (LineParserHelpers.isEndBlockComment(line)) {
-                isCommentBlockOpened = false;
-            }
-        } else {
+        if (!isCommentBlockOpened) {
             hasStartBlockTag = hasStartBlockTag || LineParserHelpers.isStartCodeBlockTag(line);
             hasEndBlockTag = hasEndBlockTag || LineParserHelpers.isEndCodeBlockTag(line);
         }
