@@ -91,13 +91,12 @@ class CodeBlockSorter {
     }
 
     private static String codeBlocksToText(List<CodeBlock> codeBlocks) {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter, true);
+        StringBuilder outputStringBuilder = new StringBuilder();
 
         for (CodeBlock codeBlock : codeBlocks) {
-            writer.print(codeBlock.getCode());
+            outputStringBuilder.append(codeBlock.getCode());
         }
 
-        return stringWriter.toString();
+        return outputStringBuilder.toString();
     }
 }

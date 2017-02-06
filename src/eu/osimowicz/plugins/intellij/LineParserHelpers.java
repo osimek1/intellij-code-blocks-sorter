@@ -1,5 +1,6 @@
 package eu.osimowicz.plugins.intellij;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -32,7 +33,42 @@ class LineParserHelpers {
     static boolean isEndBlockComment(String line) {
         return endBlockCommentTags.matcher(line).lookingAt();
     }
+
     static boolean isStartBlockComment(String line) {
         return startBlockCommentTags.matcher(line).lookingAt();
+    }
+
+    static String getFirstCodeLine(ICodeBlock codeBlock) {
+        String lineWithoutWhiteSpaces;
+        boolean isBlockComment = false;
+
+        List<String> lines = codeBlock.getLines();
+
+        for (String line : lines) {
+            lineWithoutWhiteSpaces = line.substring(codeBlock.getIndentation());
+            if (lineWithoutWhiteSpaces.isEmpty()) {
+                continue;
+            }
+
+            if (LineParserHelpers.isComment(lineWithoutWhiteSpaces)) {
+                continue;
+            }
+
+            if (!isBlockComment && LineParserHelpers.isStartBlockComment(lineWithoutWhiteSpaces)) {
+                isBlockComment = true;
+            }
+
+            if (isBlockComment && LineParserHelpers.isEndBlockComment(lineWithoutWhiteSpaces)) {
+                isBlockComment = false;
+                continue;
+            }
+
+            if (LineParserHelpers.isStartCodeBlockTag(lineWithoutWhiteSpaces)) {
+                continue;
+            }
+
+            return lineWithoutWhiteSpaces;
+        }
+        return "";
     }
 }

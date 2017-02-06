@@ -19,6 +19,16 @@ public class LineParserHelpersTest {
             return isCommentBlockOpened;
         }
 
+        @Override
+        public List<String> getLines() {
+            return new ArrayList<>();
+        }
+
+        @Override
+        public int getIndentation() {
+            return 0;
+        }
+
         public void setCommentBlockOpened(boolean commentBlockOpened) {
             isCommentBlockOpened = commentBlockOpened;
         }
@@ -37,6 +47,8 @@ public class LineParserHelpersTest {
                 response.add(whiteSpace.concat(codeLine));
                 response.add(codeLine);
                 response.add(codeLine.concat(whiteSpace));
+                response.add(codeLine.concat("\r\n"));
+                response.add(codeLine.concat(whiteSpace).concat("\r\n"));
             }
         }
 

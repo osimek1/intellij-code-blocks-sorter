@@ -2,9 +2,11 @@ package eu.osimowicz.plugins.intellij;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.sampled.Line;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,17 +30,18 @@ class CodeBlock implements ICodeBlock {
         lines = new ArrayList<>();
     }
 
-    public void addLine(String line) {
+    void addLine(String line) {
         if (addCommentLine(line)) return;
 
-        isCommentBlockOpened = LineParserHelpers.isStartBlockComment(line);
-        if (!hasStartBlockTag && isCommentBlockOpened) {
-            hasStartBlockTag = true;
-            hasEndBlockTag = false;
-        }
+        isCommentBlockOpened = isCommentBlockOpened || LineParserHelpers.isStartBlockComment(line);
 
-        if (!isCommentBlockOpened && !hasEndBlockTag && LineParserHelpers.isEndCodeBlockTag(line)) {
-            hasEndBlockTag = true;
+        if (isCommentBlockOpened) {
+            if (LineParserHelpers.isEndBlockComment(line)) {
+                isCommentBlockOpened = false;
+            }
+        } else {
+            hasStartBlockTag = hasStartBlockTag || LineParserHelpers.isStartCodeBlockTag(line);
+            hasEndBlockTag = hasEndBlockTag || LineParserHelpers.isEndCodeBlockTag(line);
         }
 
         hasSomeCodeLine = hasSomeCodeLine || !LineParserHelpers.isComment(line, this);
@@ -67,11 +70,11 @@ class CodeBlock implements ICodeBlock {
         return indentation;
     }
 
-    public boolean hasStartBlockTag() {
+    boolean hasStartBlockTag() {
         return hasStartBlockTag;
     }
 
-    public boolean isClosedBlock() {
+    boolean isClosedBlock() {
         return hasStartBlockTag && hasEndBlockTag;
     }
 
@@ -79,59 +82,23 @@ class CodeBlock implements ICodeBlock {
         return isCommentBlockOpened;
     }
 
-    public boolean hasSomeCodeLine() {
+    @Override
+    public final List<String> getLines() {
+        return Collections.unmodifiableList(lines);
+    }
+
+    boolean hasSomeCodeLine() {
         return hasSomeCodeLine;
     }
 
-    private String getFirstCodeLine() {
-        String lineWithoutWhiteSpaces;
-        boolean isBlockComment = false;
-
-        for (String line : lines) {
-            lineWithoutWhiteSpaces = skipIndentation(line);
-            if (lineWithoutWhiteSpaces.isEmpty()) {
-                continue;
-            }
-
-            if (LineParserHelpers.isComment(lineWithoutWhiteSpaces)) {
-                continue;
-            }
-
-            if (!isBlockComment && LineParserHelpers.isStartBlockComment(lineWithoutWhiteSpaces)) {
-                isBlockComment = true;
-            }
-
-            if (isBlockComment && LineParserHelpers.isEndBlockComment(lineWithoutWhiteSpaces)) {
-                isBlockComment = false;
-                continue;
-            }
-
-            if (LineParserHelpers.isStartCodeBlockTag(lineWithoutWhiteSpaces)) {
-                continue;
-            }
-
-            return lineWithoutWhiteSpaces;
-        }
-        return "";
-    }
-
-    @NotNull
-    private String skipIndentation(String line) {
-        return line.substring(indentation);
-    }
-
-    static final Comparator<CodeBlock> Comparator = (o1, o2) -> o1.getFirstCodeLine().compareTo(o2.getFirstCodeLine());
+    static final Comparator<CodeBlock> Comparator = java.util.Comparator.comparing(LineParserHelpers::getFirstCodeLine);
 
     String getCode() {
         StringBuilder outputStringBuilder = new StringBuilder();
-//        StringWriter stringWriter = new StringWriter();
-//        PrintWriter writer = new PrintWriter(stringWriter, true);
         for (String line : lines) {
             outputStringBuilder.append(line);
-//            writer.print(line);
         }
 
         return outputStringBuilder.toString();
-//        return stringWriter.toString();
     }
 }
