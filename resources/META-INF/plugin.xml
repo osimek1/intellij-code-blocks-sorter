@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>eu.osimowicz.plugins.intellij.CodeBlocksSorter</id>
   <name>Code blocks sorter</name>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <vendor email="grzegorz@osimowicz.eu" url="http://www.osimowicz.eu">YourCompany</vendor>
 
   <description><![CDATA[
