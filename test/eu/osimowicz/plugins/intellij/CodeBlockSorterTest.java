@@ -1,5 +1,6 @@
 package eu.osimowicz.plugins.intellij;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,6 +13,14 @@ import static org.junit.Assert.*;
  * Created by osimek1 on 2017-02-05.
  */
 public class CodeBlockSorterTest {
+    private CodeBlockSorter sut;
+
+    @Before
+    public void setUp() throws Exception {
+        // @TODO do not use LineParserHelpers - write some mock
+        sut = new CodeBlockSorter(new LineParserHelpers());
+    }
+
     @Test
     public void getSortedCodeSimpleCoffeeScriptCode() throws Exception {
         ArrayList codeLines = new ArrayList<String>() {{
@@ -40,7 +49,6 @@ public class CodeBlockSorterTest {
             .append("        prop3_1: true\r\n")
             .toString();
 
-        CodeBlockSorter sut = new CodeBlockSorter();
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
@@ -79,7 +87,6 @@ public class CodeBlockSorterTest {
             .append("\r\n")
             .toString();
 
-        CodeBlockSorter sut = new CodeBlockSorter();
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
@@ -161,7 +168,6 @@ public class CodeBlockSorterTest {
                 .append("\r\n")
                 .toString();
 
-        CodeBlockSorter sut = new CodeBlockSorter();
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
@@ -222,7 +228,6 @@ public class CodeBlockSorterTest {
                 .append("}\r\n")
                 .toString();
 
-        CodeBlockSorter sut = new CodeBlockSorter();
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }

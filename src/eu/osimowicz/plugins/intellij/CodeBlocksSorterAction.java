@@ -22,7 +22,9 @@ public class CodeBlocksSorterAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
         IntellijEditor intellijEditor = new IntellijEditor(actionEvent);
-        CodeBlockSorter codeBlockSorter = new CodeBlockSorter();
+        ILineParserHelpers parserHelpers = new LineParserHelpers();
+
+        CodeBlockSorter codeBlockSorter = new CodeBlockSorter(parserHelpers);
 
         final String sortedCode = codeBlockSorter.getSortedCode(intellijEditor.extractLines());
 

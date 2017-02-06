@@ -1,18 +1,25 @@
 package eu.osimowicz.plugins.intellij;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by osimek1 on 2017-02-03.
  */
 class CodeBlockSorter {
+    private ILineParserHelpers lineParserHelpers;
+
+    CodeBlockSorter(ILineParserHelpers lineParserHelpers) {
+        this.lineParserHelpers = lineParserHelpers;
+    }
+
     String getSortedCode(List<String> lines) {
         List<CodeBlock> codeBlocks = parseCode(lines);
 
-        codeBlocks.sort(CodeBlock.Comparator);
+        final Comparator<CodeBlock> Comparator = java.util.Comparator.comparing((codeBlock) -> lineParserHelpers.getFirstCodeLine(codeBlock));
+
+        codeBlocks.sort(Comparator);
 
         return codeBlocksToText(codeBlocks);
     }
@@ -38,9 +45,9 @@ class CodeBlockSorter {
         return codeBlocks;
     }
 
-    private static void addLine(String line, ICodeBlock codeBlock) {
+    private void addLine(String line, ICodeBlock codeBlock) {
         if (codeBlock.isCommentBlockOpened()) {
-            if (LineParserHelpers.isEndBlockComment(line)) {
+            if (lineParserHelpers.isEndBlockComment(line)) {
                 codeBlock.setCommentBlockOpened(false);
             }
 
@@ -48,24 +55,24 @@ class CodeBlockSorter {
             return;
         }
 
-        if (LineParserHelpers.isComment(line)) {
+        if (lineParserHelpers.isComment(line)) {
             codeBlock.getLines().add(line);
             return;
         }
 
-        codeBlock.setCommentBlockOpened(codeBlock.isCommentBlockOpened() || LineParserHelpers.isStartBlockComment(line));
+        codeBlock.setCommentBlockOpened(codeBlock.isCommentBlockOpened() || lineParserHelpers.isStartBlockComment(line));
 
         if (!codeBlock.isCommentBlockOpened()) {
-            codeBlock.setHasStartBlockTag(codeBlock.hasStartBlockTag() || LineParserHelpers.isStartCodeBlockTag(line));
-            codeBlock.setHasEndBlockTag(codeBlock.hasEndBlockTag() || LineParserHelpers.isEndCodeBlockTag(line));
+            codeBlock.setHasStartBlockTag(codeBlock.hasStartBlockTag() || lineParserHelpers.isStartCodeBlockTag(line));
+            codeBlock.setHasEndBlockTag(codeBlock.hasEndBlockTag() || lineParserHelpers.isEndCodeBlockTag(line));
         }
 
-        codeBlock.setHasSomeCodeLine(codeBlock.hasSomeCodeLine() || !LineParserHelpers.isComment(line, codeBlock));
+        codeBlock.setHasSomeCodeLine(codeBlock.hasSomeCodeLine() || !lineParserHelpers.isComment(line, codeBlock));
 
         codeBlock.getLines().add(line);
     }
 
-    private static boolean isDifferentBlock(CodeBlock codeBlock, int indentation, String line) {
+    private boolean isDifferentBlock(CodeBlock codeBlock, int indentation, String line) {
         if (codeBlock == null)
             return true;
 
@@ -81,19 +88,19 @@ class CodeBlockSorter {
             if (!codeBlock.hasSomeCodeLine()) {
                 return false;
             }
-            if (LineParserHelpers.isStartCodeBlockTag(line)) {
+            if (lineParserHelpers.isStartCodeBlockTag(line)) {
                 return codeBlock.hasStartBlockTag();
             }
 
-            if (LineParserHelpers.isStartBlockComment(line)) {
+            if (lineParserHelpers.isStartBlockComment(line)) {
                 return codeBlock.hasSomeCodeLine();
             }
 
-            if (LineParserHelpers.isEndCodeBlockTag(line)) {
+            if (lineParserHelpers.isEndCodeBlockTag(line)) {
                 return false;
             }
 
-            return !LineParserHelpers.isComment(line, codeBlock) || codeBlock.isClosedBlock();
+            return !lineParserHelpers.isComment(line, codeBlock) || codeBlock.isClosedBlock();
 
         }
 

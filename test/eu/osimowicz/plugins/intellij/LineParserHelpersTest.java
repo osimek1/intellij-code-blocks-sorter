@@ -1,5 +1,6 @@
 package eu.osimowicz.plugins.intellij;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import static org.junit.Assert.*;
  * Created by osimek1 on 2017-02-05.
  */
 public class LineParserHelpersTest {
+    private LineParserHelpers lineParserHelpers;
+
     private class CodeBlockMock implements ICodeBlock{
         private boolean isCommentBlockOpened = false;
         private boolean hasStartBlockTag = false;
@@ -67,6 +70,11 @@ public class LineParserHelpersTest {
         }
     }
 
+    @Before
+    public void setUp() throws Exception {
+        lineParserHelpers = new LineParserHelpers();
+    }
+
     private List<String> addWhiteSpacesToCodeLines(String[] codeLines) {
         String[] whiteSpaces = {
                 "\t",
@@ -104,7 +112,7 @@ public class LineParserHelpersTest {
         for (String blockTag : startBlockCodeTags) {
             assertTrue(
                     "\"" + blockTag +"\" should be a start code block tag",
-                    LineParserHelpers.isStartCodeBlockTag(blockTag)
+                    lineParserHelpers.isStartCodeBlockTag(blockTag)
             );
         }
     }
@@ -127,7 +135,7 @@ public class LineParserHelpersTest {
         for (String blockTag : linesWithEndBlockTags) {
             assertFalse(
                     "\"" + blockTag +"\" should not be a start code block tag",
-                    LineParserHelpers.isStartCodeBlockTag(blockTag)
+                    lineParserHelpers.isStartCodeBlockTag(blockTag)
             );
         }
     }
@@ -148,7 +156,7 @@ public class LineParserHelpersTest {
         for (String blockTag : endBlockCodeTags) {
             assertTrue(
                     "\"" + blockTag +"\" should be a end code block tag",
-                    LineParserHelpers.isEndCodeBlockTag(blockTag)
+                    lineParserHelpers.isEndCodeBlockTag(blockTag)
             );
         }
     }
@@ -165,7 +173,7 @@ public class LineParserHelpersTest {
         });
 
         for (String comment : validComments) {
-            assertTrue("\"" + comment + "\" should be valid comment", LineParserHelpers.isComment(comment));
+            assertTrue("\"" + comment + "\" should be valid comment", lineParserHelpers.isComment(comment));
         }
 
         List<String> invalidComments = addWhiteSpacesToCodeLines(new String[]{
@@ -176,7 +184,7 @@ public class LineParserHelpersTest {
         });
 
         for (String comment : invalidComments) {
-            assertFalse("\"" + comment + "\" should be invalid comment", LineParserHelpers.isComment(comment));
+            assertFalse("\"" + comment + "\" should be invalid comment", lineParserHelpers.isComment(comment));
         }
     }
 
@@ -187,38 +195,38 @@ public class LineParserHelpersTest {
 
         assertFalse(
                 "Should return false if not a comment and no block comment",
-                LineParserHelpers.isComment("some text", codeBlock)
+                lineParserHelpers.isComment("some text", codeBlock)
         );
 
         assertFalse(
                 "Should return false if end block comment but there is no start comment",
-                LineParserHelpers.isComment("some text */", codeBlock)
+                lineParserHelpers.isComment("some text */", codeBlock)
         );
 
         assertTrue(
                 "Should return true if inline comment, no block comment",
-                LineParserHelpers.isComment("// some text", codeBlock)
+                lineParserHelpers.isComment("// some text", codeBlock)
         );
 
         assertTrue(
                 "Should return true if start block comment",
-                LineParserHelpers.isComment("/* some text", codeBlock)
+                lineParserHelpers.isComment("/* some text", codeBlock)
         );
 
         codeBlock.setCommentBlockOpened(true);
         assertTrue(
                 "Should return true if block comment started and sample text passed",
-                LineParserHelpers.isComment("some text", codeBlock)
+                lineParserHelpers.isComment("some text", codeBlock)
         );
 
         assertTrue(
                 "Should return if block comment started and inline comment passed",
-                LineParserHelpers.isComment("// some text", codeBlock)
+                lineParserHelpers.isComment("// some text", codeBlock)
         );
 
         assertTrue(
                 "Should return if block comment started and end block comment passed",
-                LineParserHelpers.isComment("some text /*", codeBlock)
+                lineParserHelpers.isComment("some text /*", codeBlock)
         );
     }
 
@@ -232,7 +240,7 @@ public class LineParserHelpersTest {
         for (String commentTag : validEndBlockCommentTags) {
             assertTrue(
                     "\"" + commentTag + "\" should be valid end block comment tag",
-                    LineParserHelpers.isEndBlockComment(commentTag)
+                    lineParserHelpers.isEndBlockComment(commentTag)
             );
         }
 
@@ -247,7 +255,7 @@ public class LineParserHelpersTest {
         for (String commentTag : invalidEndBlockCommentTags) {
             assertFalse(
                     "\"" + commentTag + "\" should be invalid end block comment tag",
-                    LineParserHelpers.isEndBlockComment(commentTag)
+                    lineParserHelpers.isEndBlockComment(commentTag)
             );
         }
     }
@@ -265,7 +273,7 @@ public class LineParserHelpersTest {
         for (String commentTag : validStartBlockCommentTags) {
             assertTrue(
                     "\"" + commentTag + "\" should be valid start block comment tag",
-                    LineParserHelpers.isStartBlockComment(commentTag)
+                    lineParserHelpers.isStartBlockComment(commentTag)
             );
         }
 
@@ -280,7 +288,7 @@ public class LineParserHelpersTest {
         for (String commentTag : invalidStartBlockCommentTags) {
             assertFalse(
                     "\"" + commentTag + "\" should be invalid start block comment tag",
-                    LineParserHelpers.isStartBlockComment(commentTag)
+                    lineParserHelpers.isStartBlockComment(commentTag)
             );
         }
     }

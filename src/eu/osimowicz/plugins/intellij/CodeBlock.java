@@ -77,8 +77,6 @@ class CodeBlock implements ICodeBlock {
         this.hasSomeCodeLine = hasSomeCodeLine;
     }
 
-    static final Comparator<CodeBlock> Comparator = java.util.Comparator.comparing(LineParserHelpers::getFirstCodeLine);
-
     String getCode() {
         StringBuilder outputStringBuilder = new StringBuilder();
         for (String line : lines) {
