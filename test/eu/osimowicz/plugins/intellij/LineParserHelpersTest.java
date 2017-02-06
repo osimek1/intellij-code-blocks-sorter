@@ -13,6 +13,9 @@ import static org.junit.Assert.*;
 public class LineParserHelpersTest {
     private class CodeBlockMock implements ICodeBlock{
         private boolean isCommentBlockOpened = false;
+        private boolean hasStartBlockTag = false;
+        private boolean hasEndBlockTag = false;
+        private boolean hasSomeCodeLine = false;
 
         @Override
         public boolean isCommentBlockOpened() {
@@ -27,6 +30,36 @@ public class LineParserHelpersTest {
         @Override
         public int getIndentation() {
             return 0;
+        }
+
+        @Override
+        public boolean hasStartBlockTag() {
+            return hasStartBlockTag;
+        }
+
+        @Override
+        public void setHasStartBlockTag(boolean hasStartBlockTag) {
+            this.hasStartBlockTag = hasStartBlockTag;
+        }
+
+        @Override
+        public boolean hasEndBlockTag() {
+            return hasEndBlockTag;
+        }
+
+        @Override
+        public void setHasEndBlockTag(boolean hasEndBlockTag) {
+            this.hasEndBlockTag = hasEndBlockTag;
+        }
+
+        @Override
+        public boolean hasSomeCodeLine() {
+            return hasSomeCodeLine;
+        }
+
+        @Override
+        public void setHasSomeCodeLine(boolean hasSomeCodeLine) {
+            this.hasSomeCodeLine = hasSomeCodeLine;
         }
 
         public void setCommentBlockOpened(boolean commentBlockOpened) {

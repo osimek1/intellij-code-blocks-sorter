@@ -7,6 +7,13 @@ import java.util.List;
  */
 interface ICodeBlock {
     boolean isCommentBlockOpened();
+    void setCommentBlockOpened(boolean commentBlockOpened);
     List<String> getLines();
     int getIndentation();
+    boolean hasStartBlockTag();
+    void setHasStartBlockTag(boolean hasStartBlockTag);
+    boolean hasEndBlockTag();
+    void setHasEndBlockTag(boolean hasEndBlockTag);
+    boolean hasSomeCodeLine();
+    void setHasSomeCodeLine(boolean hasSomeCodeLine);
 }

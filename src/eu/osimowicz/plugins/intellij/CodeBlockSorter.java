@@ -30,15 +30,39 @@ class CodeBlockSorter {
             if (isDifferentBlock(currentCodeBlock, indentation, lineWithoutIndentation)) {
                 currentCodeBlock = new CodeBlock(indentation);
                 codeBlocks.add(currentCodeBlock);
-                currentCodeBlock.addLine(line);
-
-                continue;
             }
 
-            currentCodeBlock.addLine(line);
+            addLine(line, currentCodeBlock);
         }
 
         return codeBlocks;
+    }
+
+    private static void addLine(String line, ICodeBlock codeBlock) {
+        if (codeBlock.isCommentBlockOpened()) {
+            if (LineParserHelpers.isEndBlockComment(line)) {
+                codeBlock.setCommentBlockOpened(false);
+            }
+
+            codeBlock.getLines().add(line);
+            return;
+        }
+
+        if (LineParserHelpers.isComment(line)) {
+            codeBlock.getLines().add(line);
+            return;
+        }
+
+        codeBlock.setCommentBlockOpened(codeBlock.isCommentBlockOpened() || LineParserHelpers.isStartBlockComment(line));
+
+        if (!codeBlock.isCommentBlockOpened()) {
+            codeBlock.setHasStartBlockTag(codeBlock.hasStartBlockTag() || LineParserHelpers.isStartCodeBlockTag(line));
+            codeBlock.setHasEndBlockTag(codeBlock.hasEndBlockTag() || LineParserHelpers.isEndCodeBlockTag(line));
+        }
+
+        codeBlock.setHasSomeCodeLine(codeBlock.hasSomeCodeLine() || !LineParserHelpers.isComment(line, codeBlock));
+
+        codeBlock.getLines().add(line);
     }
 
     private static boolean isDifferentBlock(CodeBlock codeBlock, int indentation, String line) {

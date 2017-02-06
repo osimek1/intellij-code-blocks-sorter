@@ -30,45 +30,16 @@ class CodeBlock implements ICodeBlock {
         lines = new ArrayList<>();
     }
 
-    void addLine(String line) {
-        if (addCommentLine(line)) return;
-
-        // @TODO extract this logic
-        isCommentBlockOpened = isCommentBlockOpened || LineParserHelpers.isStartBlockComment(line);
-
-        if (!isCommentBlockOpened) {
-            hasStartBlockTag = hasStartBlockTag || LineParserHelpers.isStartCodeBlockTag(line);
-            hasEndBlockTag = hasEndBlockTag || LineParserHelpers.isEndCodeBlockTag(line);
-        }
-
-        hasSomeCodeLine = hasSomeCodeLine || !LineParserHelpers.isComment(line, this);
-
-        lines.add(line);
-    }
-
-    private boolean addCommentLine(String line) {
-        if (isCommentBlockOpened) {
-            if (LineParserHelpers.isEndBlockComment(line)) {
-                isCommentBlockOpened = false;
-            }
-
-            lines.add(line);
-            return true;
-        }
-
-        if (LineParserHelpers.isComment(line)) {
-            lines.add(line);
-            return true;
-        }
-        return false;
-    }
-
     public int getIndentation() {
         return indentation;
     }
 
-    boolean hasStartBlockTag() {
+    public boolean hasStartBlockTag() {
         return hasStartBlockTag;
+    }
+
+    public void setHasStartBlockTag(boolean hasStartBlockTag) {
+        this.hasStartBlockTag = hasStartBlockTag;
     }
 
     boolean isClosedBlock() {
@@ -79,13 +50,31 @@ class CodeBlock implements ICodeBlock {
         return isCommentBlockOpened;
     }
 
-    @Override
-    public final List<String> getLines() {
-        return Collections.unmodifiableList(lines);
+    public void setCommentBlockOpened(boolean commentBlockOpened) {
+        isCommentBlockOpened = commentBlockOpened;
     }
 
-    boolean hasSomeCodeLine() {
+    public boolean hasEndBlockTag() {
+        return hasEndBlockTag;
+    }
+
+    @Override
+    public void setHasEndBlockTag(boolean hasEndBlockTag) {
+        this.hasEndBlockTag = hasEndBlockTag;
+    }
+
+    @NotNull
+    @Override
+    public List<String> getLines() {
+        return lines;
+    }
+
+    public boolean hasSomeCodeLine() {
         return hasSomeCodeLine;
+    }
+
+    public void setHasSomeCodeLine(boolean hasSomeCodeLine) {
+        this.hasSomeCodeLine = hasSomeCodeLine;
     }
 
     static final Comparator<CodeBlock> Comparator = java.util.Comparator.comparing(LineParserHelpers::getFirstCodeLine);
