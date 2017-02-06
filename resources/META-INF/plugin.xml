@@ -25,6 +25,8 @@
               class="eu.osimowicz.plugins.intellij.CodeBlocksSorterAction" text="Sort Code Blocks"
               description="Sort code blocks (find modules with smallest indentation and sort by its names">
         <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        <add-to-group group-id="CodeMenu"/>
+        <keyboard-shortcut first-keystroke="alt shift L" keymap="#default"/>
       </action>
   </actions>
 
