@@ -2,7 +2,7 @@
   <id>eu.osimowicz.plugins.intellij.CodeBlocksSorter</id>
   <name>Code blocks sorter</name>
   <version>0.0.1</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="grzegorz@osimowicz.eu" url="http://www.osimowicz.eu">YourCompany</vendor>
 
   <description><![CDATA[
       Sort your code by each code block first letter (sort only first level of blocks)
