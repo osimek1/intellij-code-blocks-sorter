@@ -8,7 +8,7 @@ import java.util.List;
  * Created by osimek1 on 2017-02-03.
  */
 class CodeBlockSorter {
-    private ILineParserHelpers lineParserHelpers;
+    private final ILineParserHelpers lineParserHelpers;
 
     CodeBlockSorter(ILineParserHelpers lineParserHelpers) {
         this.lineParserHelpers = lineParserHelpers;
@@ -96,11 +96,7 @@ class CodeBlockSorter {
                 return codeBlock.hasSomeCodeLine();
             }
 
-            if (lineParserHelpers.isEndCodeBlockTag(line)) {
-                return false;
-            }
-
-            return !lineParserHelpers.isComment(line, codeBlock) || codeBlock.isClosedBlock();
+            return !lineParserHelpers.isEndCodeBlockTag(line) && (!lineParserHelpers.isComment(line, codeBlock) || codeBlock.isClosedBlock());
 
         }
 

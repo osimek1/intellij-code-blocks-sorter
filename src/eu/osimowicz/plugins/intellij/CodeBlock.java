@@ -2,12 +2,7 @@ package eu.osimowicz.plugins.intellij;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.sound.sampled.Line;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**

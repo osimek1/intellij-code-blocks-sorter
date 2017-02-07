@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +21,7 @@ public class CodeBlockSorterTest {
 
     @Test
     public void getSortedCodeSimpleCoffeeScriptCode() throws Exception {
-        ArrayList codeLines = new ArrayList<String>() {{
+        ArrayList<String> codeLines = new ArrayList<String>() {{
             add("zModule: \r\n");
             add("    prop1: \"some text\"\r\n");
             add("    prop2: 2\r\n");
@@ -55,7 +53,7 @@ public class CodeBlockSorterTest {
 
     @Test
     public void getSortedCodeCoffeeScriptWithEmptyLines() throws Exception {
-        ArrayList codeLines = new ArrayList<String>() {{
+        ArrayList<String> codeLines = new ArrayList<String>() {{
             add("zModule: \r\n");
             add("    prop1: \"some text\"\r\n");
             add("    prop2: 2\r\n");
@@ -93,7 +91,7 @@ public class CodeBlockSorterTest {
 
     @Test
     public void getSortedCodeCoffeeScriptWithEmptyLinesAndJsDoc() throws Exception {
-        ArrayList codeLines = new ArrayList<String>() {{
+        ArrayList<String> codeLines = new ArrayList<String>() {{
             add("###*\r\n");
             add(" # Some simple class desc zModule\r\n");
             add(" # @class zModule\r\n");
@@ -174,7 +172,7 @@ public class CodeBlockSorterTest {
 
     @Test
     public void getSortedJsonCodeWithEmptyLines() throws Exception {
-        ArrayList codeLines = new ArrayList<String>() {{
+        ArrayList<String> codeLines = new ArrayList<String>() {{
             add("{\r\n");
             add("    \"zModule\": {\r\n");
             add("        \"prop1\": \"some text\"\r\n");

@@ -1,9 +1,9 @@
 package eu.osimowicz.plugins.intellij;
 
 /**
- * Created by gosimowi on 2017-02-06.
+ * Created by gosimowi on 2017-02-06.z
  */
-public interface ILineParserHelpers {
+interface ILineParserHelpers {
     boolean isStartCodeBlockTag(String line);
     boolean isEndCodeBlockTag(String line);
     boolean isComment(String line);
