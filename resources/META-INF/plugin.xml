@@ -1,11 +1,13 @@
 <idea-plugin version="2">
   <id>eu.osimowicz.plugins.intellij.CodeBlocksSorter</id>
   <name>Code blocks sorter</name>
-  <version>0.1.0</version>
-  <vendor email="grzegorz@osimowicz.eu" url="http://www.osimowicz.eu">YourCompany</vendor>
+  <version>0.1.1</version>
+  <vendor email="grzegorz@osimowicz.eu" url="http://www.osimowicz.eu">Grzegorz Osimowicz</vendor>
 
   <description><![CDATA[
-      Sort your code by each code block first letter (sort only first level of blocks)
+      This plugin allows you to sort your code depending on indentation, comments, brackets etc. eg.
+      You may select whole class and sort all your method alphabetically.
+      Pleas notice that eg. private keyword is also a part of line with your method name so it will sort your methods by accessibility.
     ]]></description>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -18,6 +20,18 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
   </extensions>
+
+  <change-notes><![CDATA[
+    <ul>
+      <li>
+        <strong>0.1.1</strong>
+        <ul>
+          <li>Fixed sorting json properties</li>
+          <li>Some code improvements</li>
+        </ul>
+      </li>
+    </ul>
+  ]]></change-notes>
 
 
   <actions>
