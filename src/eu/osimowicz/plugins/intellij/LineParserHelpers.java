@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  */
 class LineParserHelpers implements ILineParserHelpers {
     private static final Pattern startBlockTags = Pattern.compile("(\\s+)*(\\[|\\{|\\(|<)");
-    private static final Pattern endBlockTags = Pattern.compile("[[\\s]*[\\w]*]*(]|}|\\)|>)(\\s+)*$");
+    private static final Pattern endBlockTags = Pattern.compile("[[\\s]*[\\w]*]*(]|}|\\)|>)[[\\s]*[\\w,\\.\\;]*]*$");
     private static final Pattern inlineCommentTags = Pattern.compile("(\\s)*(//|(#(\\s*.*))|((/\\*)(\\s*.*)*(\\*/)))");
     private static final Pattern startBlockCommentTags = Pattern.compile("(\\s)*(/\\*|###)");
     private static final Pattern endBlockCommentTags = Pattern.compile("[[\\s+]*[\\w]*]*(\\*/|###)");

@@ -144,13 +144,29 @@ public class LineParserHelpersTest {
     public void isEndCodeBlockTag() throws Exception {
         List<String> endBlockCodeTags = addWhiteSpacesToCodeLines(new String[]{
                 "}",
+                "},",
+                "};",
                 ")",
+                "),",
+                ");",
                 ">",
+                ">,",
+                ">;",
                 "]",
+                "],",
+                "];",
                 "someText }",
+                "someText },",
+                "someText };",
                 "someText )",
+                "someText ),",
+                "someText );",
                 "someText >",
+                "someText >,",
+                "someText >;",
                 "someText ]",
+                "someText ],",
+                "someText ];",
         });
 
         for (String blockTag : endBlockCodeTags) {

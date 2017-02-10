@@ -130,41 +130,41 @@ public class CodeBlockSorterTest {
         }};
 
         String sortedCoffeeScriptCode = new StringBuilder()
-                .append("###*\r\n")
-                .append(" # Some simple class desc aModule\r\n")
-                .append(" # @class aModule\r\n")
-                .append("###\r\n")
-                .append("aModule: \"simple text\"\r\n")
-                .append("    \r\n")
-                .append("###*\r\n")
-                .append(" # Some simple class desc bModule\r\n")
-                .append(" # @class bModule\r\n")
-                .append("###\r\n")
-                .append("bModule: [\r\n")
-                .append("    \"arr1\"\r\n")
-                .append("    \"arr2\"\r\n")
-                .append("]\r\n")
-                .append("###*\r\n")
-                .append(" # Some simple class desc cModule\r\n")
-                .append(" # @class cModule\r\n")
-                .append("###\r\n")
-                .append("cModule: 1\r\n")
-                .append("\r\n")
-                .append("###*\r\n")
-                .append(" # Some simple class desc zModule\r\n")
-                .append(" # @class zModule\r\n")
-                .append("###\r\n")
-                .append("zModule: \r\n")
-                .append("    ###*\r\n")
-                .append("     # Some simple property desc prop1\r\n")
-                .append("     # @prop prop1\r\n")
-                .append("    ###\r\n")
-                .append("    prop1: \"some text\"\r\n")
-                .append("    prop2: 2\r\n")
-                .append("    prop3:\r\n")
-                .append("        prop3_1: true\r\n")
-                .append("\r\n")
-                .toString();
+            .append("###*\r\n")
+            .append(" # Some simple class desc aModule\r\n")
+            .append(" # @class aModule\r\n")
+            .append("###\r\n")
+            .append("aModule: \"simple text\"\r\n")
+            .append("    \r\n")
+            .append("###*\r\n")
+            .append(" # Some simple class desc bModule\r\n")
+            .append(" # @class bModule\r\n")
+            .append("###\r\n")
+            .append("bModule: [\r\n")
+            .append("    \"arr1\"\r\n")
+            .append("    \"arr2\"\r\n")
+            .append("]\r\n")
+            .append("###*\r\n")
+            .append(" # Some simple class desc cModule\r\n")
+            .append(" # @class cModule\r\n")
+            .append("###\r\n")
+            .append("cModule: 1\r\n")
+            .append("\r\n")
+            .append("###*\r\n")
+            .append(" # Some simple class desc zModule\r\n")
+            .append(" # @class zModule\r\n")
+            .append("###\r\n")
+            .append("zModule: \r\n")
+            .append("    ###*\r\n")
+            .append("     # Some simple property desc prop1\r\n")
+            .append("     # @prop prop1\r\n")
+            .append("    ###\r\n")
+            .append("    prop1: \"some text\"\r\n")
+            .append("    prop2: 2\r\n")
+            .append("    prop3:\r\n")
+            .append("        prop3_1: true\r\n")
+            .append("\r\n")
+            .toString();
 
         String sortedText = sut.getSortedCode(codeLines);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
@@ -199,35 +199,76 @@ public class CodeBlockSorterTest {
             add("\r\n");
         }};
 
-        String sortedCoffeeScriptCode = new StringBuilder()
-                .append("{\r\n")
-                .append("\r\n")
-                .append("    \"aModule\": \"simple text\"\r\n")
-                .append("}\r\n")
-                .append("    \r\n")
-                .append("{\r\n")
-                .append("    \"bModule\": [\r\n")
-                .append("        \"arr1\"\r\n")
-                .append("        \"arr2\"\r\n")
-                .append("    ]\r\n")
-                .append("}\r\n")
-                .append("\r\n")
-                .append("{\r\n")
-                .append("    \"cModule\": 1\r\n")
-                .append("}\r\n")
-                .append("{\r\n")
-                .append("    \"zModule\": {\r\n")
-                .append("        \"prop1\": \"some text\"\r\n")
-                .append("        \"prop2\": 2\r\n")
-                .append("        \"prop3\": {\r\n")
-                .append("            \"prop3_1\": true\r\n")
-                .append("        }\r\n")
-                .append("    }\r\n")
-                .append("}\r\n")
-                .toString();
+        String sortedCode = new StringBuilder()
+            .append("{\r\n")
+            .append("\r\n")
+            .append("    \"aModule\": \"simple text\"\r\n")
+            .append("}\r\n")
+            .append("    \r\n")
+            .append("{\r\n")
+            .append("    \"bModule\": [\r\n")
+            .append("        \"arr1\"\r\n")
+            .append("        \"arr2\"\r\n")
+            .append("    ]\r\n")
+            .append("}\r\n")
+            .append("\r\n")
+            .append("{\r\n")
+            .append("    \"cModule\": 1\r\n")
+            .append("}\r\n")
+            .append("{\r\n")
+            .append("    \"zModule\": {\r\n")
+            .append("        \"prop1\": \"some text\"\r\n")
+            .append("        \"prop2\": 2\r\n")
+            .append("        \"prop3\": {\r\n")
+            .append("            \"prop3_1\": true\r\n")
+            .append("        }\r\n")
+            .append("    }\r\n")
+            .append("}\r\n")
+            .toString();
 
         String sortedText = sut.getSortedCode(codeLines);
-        assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
+        assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
+    }
+
+    @Test
+    public void getSortedJson() {
+        ArrayList<String> codeLines = new ArrayList<String>() {{
+            add("    \"tags\": {\n");
+            add("        \"allowUnknownTags\": true\n");
+            add("    },\n");
+            add("    \"source\": {\n");
+            add("        \"includePattern\": \".+\\\\.js(doc)?$\",\n");
+            add("        \"excludePattern\": \"(^|\\\\/|\\\\\\\\)_[^\\\\/\\\\\\\\]*$\"\n");
+            add("    },\n");
+            add("    \"plugins\": [\"plugins/markdown\"],\n");
+            add("    \"templates\": {\n");
+            add("        \"cleverLinks\": false,\n");
+            add("        \"monospaceLinks\": true,\n");
+            add("        \"default\": {\n");
+            add("            \"outputSourceFiles\": false\n");
+            add("        }\n");
+            add("    }\n");
+        }};
+
+        String sortedCode = "" +
+                "    \"plugins\": [\"plugins/markdown\"],\n" +
+                "    \"source\": {\n" +
+                "        \"includePattern\": \".+\\\\.js(doc)?$\",\n" +
+                "        \"excludePattern\": \"(^|\\\\/|\\\\\\\\)_[^\\\\/\\\\\\\\]*$\"\n" +
+                "    },\n" +
+                "    \"tags\": {\n" +
+                "        \"allowUnknownTags\": true\n" +
+                "    },\n" +
+                "    \"templates\": {\n" +
+                "        \"cleverLinks\": false,\n" +
+                "        \"monospaceLinks\": true,\n" +
+                "        \"default\": {\n" +
+                "            \"outputSourceFiles\": false\n" +
+                "        }\n" +
+                "    }\n";
+
+        String sortedText = sut.getSortedCode(codeLines);
+        assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
     }
 }
 
