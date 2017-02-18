@@ -40,13 +40,13 @@
 
       <action id="CodeBlockSorter.SortCaseInsensitiveAction"
               class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseInsensitiveAction"
-              text="Sort code (case insensitive)" description="Sort your code (case insetive)">
+              text="Sort code (A-Z)" description="Sort your code (case insetive)">
         <keyboard-shortcut keymap="$default" first-keystroke="shift alt L"/>
       </action>
 
       <action id="CodeBlockSorter.SortCaseSensitive"
               class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseSensitiveAction"
-              text="Sort code (case sensitive)" description="Sort your code (case sensitive)">
+              text="Sort code case sensitive (A-z)" description="Sort your code (case sensitive)">
       </action>
     </group>
   </actions>
