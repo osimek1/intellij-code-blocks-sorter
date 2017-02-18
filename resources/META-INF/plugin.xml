@@ -35,13 +35,13 @@
 
 
   <actions>
-      <action id="eu.osimowicz.plugins.intellij.CodeBlocksSorterAction"
-              class="eu.osimowicz.plugins.intellij.CodeBlocksSorterAction" text="Sort Code Blocks"
-              description="Sort code blocks (find modules with smallest indentation and sort by its names">
-        <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        <add-to-group group-id="CodeMenu"/>
-        <keyboard-shortcut first-keystroke="alt shift L" keymap="#default"/>
-      </action>
+    <action id="CodeBlockSorter.SortCaseInsensitiveAction"
+            class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseInsensitiveAction"
+            text="Sort code (case insensitive)" description="Sort your code (case insetive)">
+      <add-to-group group-id="CodeMenu" anchor="last"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift alt L"/>
+    </action>
   </actions>
 
 </idea-plugin>

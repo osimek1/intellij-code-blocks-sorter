@@ -3,7 +3,7 @@ package eu.osimowicz.plugins.intellij;
 /**
  * Created by gosimowi on 2017-02-06.z
  */
-interface ILineParserHelpers {
+public interface ILineParserHelpers {
     boolean isStartCodeBlockTag(String line);
     boolean isEndCodeBlockTag(String line);
     boolean isComment(String line);

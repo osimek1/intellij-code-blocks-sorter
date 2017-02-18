@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by osimek1 on 2017-02-03.
  */
-class CodeBlock implements ICodeBlock {
+public class CodeBlock implements ICodeBlock {
     private List<String> lines;
 
     private boolean hasStartBlockTag = false;

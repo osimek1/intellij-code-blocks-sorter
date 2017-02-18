@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Created by osimek1 on 2017-02-05.
  */
-class LineParserHelpers implements ILineParserHelpers {
+public class LineParserHelpers implements ILineParserHelpers {
     private static final Pattern startBlockTags = Pattern.compile("(\\s+)*(\\[|\\{|\\(|<)");
     private static final Pattern endBlockTags = Pattern.compile("[[\\s]*[\\w]*]*(]|}|\\)|>)[[\\s]*[\\w,\\.\\;]*]*$");
     private static final Pattern inlineCommentTags = Pattern.compile("(\\s)*(//|(#(\\s*.*))|((/\\*)(\\s*.*)*(\\*/)))");

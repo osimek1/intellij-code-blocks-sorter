@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static org.junit.Assert.*;
 
@@ -12,11 +13,16 @@ import static org.junit.Assert.*;
  */
 public class CodeBlockSorterTest {
     private CodeBlockSorter sut;
+    private Comparator<CodeBlock> comparator;
 
     @Before
     public void setUp() throws Exception {
+        ILineParserHelpers lineParserHelpers = new LineParserHelpers();
         // @TODO do not use LineParserHelpers - write some mock
-        sut = new CodeBlockSorter(new LineParserHelpers());
+        sut = new CodeBlockSorter(lineParserHelpers);
+        comparator = java.util.Comparator.comparing((codeBlock) ->
+                lineParserHelpers.getFirstCodeLine(codeBlock).toLowerCase()
+        );
     }
 
     @Test
@@ -47,7 +53,7 @@ public class CodeBlockSorterTest {
             .append("        prop3_1: true\r\n")
             .toString();
 
-        String sortedText = sut.getSortedCode(codeLines);
+        String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
 
@@ -85,7 +91,7 @@ public class CodeBlockSorterTest {
             .append("\r\n")
             .toString();
 
-        String sortedText = sut.getSortedCode(codeLines);
+        String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
 
@@ -166,7 +172,7 @@ public class CodeBlockSorterTest {
             .append("\r\n")
             .toString();
 
-        String sortedText = sut.getSortedCode(codeLines);
+        String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCoffeeScriptCode, sortedText);
     }
 
@@ -226,7 +232,7 @@ public class CodeBlockSorterTest {
             .append("}\r\n")
             .toString();
 
-        String sortedText = sut.getSortedCode(codeLines);
+        String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
     }
 
@@ -267,7 +273,7 @@ public class CodeBlockSorterTest {
                 "        }\n" +
                 "    }\n";
 
-        String sortedText = sut.getSortedCode(codeLines);
+        String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
     }
 }

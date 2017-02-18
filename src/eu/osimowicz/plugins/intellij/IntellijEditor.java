@@ -19,7 +19,7 @@ public class IntellijEditor implements IEditor {
     private final Project project;
     private final SelectionModel selectionModel;
 
-    IntellijEditor(AnActionEvent actionEvent) {
+    public IntellijEditor(AnActionEvent actionEvent) {
         Editor editor = actionEvent.getRequiredData(CommonDataKeys.EDITOR);
         project = actionEvent.getRequiredData(CommonDataKeys.PROJECT);
         selectionModel = editor.getSelectionModel();

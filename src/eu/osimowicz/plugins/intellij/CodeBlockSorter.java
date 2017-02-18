@@ -7,19 +7,17 @@ import java.util.List;
 /**
  * Created by osimek1 on 2017-02-03.
  */
-class CodeBlockSorter {
+public class CodeBlockSorter {
     private final ILineParserHelpers lineParserHelpers;
 
-    CodeBlockSorter(ILineParserHelpers lineParserHelpers) {
+    public CodeBlockSorter(ILineParserHelpers lineParserHelpers) {
         this.lineParserHelpers = lineParserHelpers;
     }
 
-    String getSortedCode(List<String> lines) {
+    public String getSortedCode(List<String> lines, Comparator<CodeBlock> comparator) {
         List<CodeBlock> codeBlocks = parseCode(lines);
 
-        final Comparator<CodeBlock> Comparator = java.util.Comparator.comparing((codeBlock) -> lineParserHelpers.getFirstCodeLine(codeBlock));
-
-        codeBlocks.sort(Comparator);
+        codeBlocks.sort(comparator);
 
         return codeBlocksToText(codeBlocks);
     }
