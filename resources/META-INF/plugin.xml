@@ -33,15 +33,22 @@
     </ul>
   ]]></change-notes>
 
-
   <actions>
-    <action id="CodeBlockSorter.SortCaseInsensitiveAction"
-            class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseInsensitiveAction"
-            text="Sort code (case insensitive)" description="Sort your code (case insetive)">
+    <group id="CodeBlockSorter" text="Sort code" popup="true">
       <add-to-group group-id="CodeMenu" anchor="last"/>
       <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="shift alt L"/>
-    </action>
+
+      <action id="CodeBlockSorter.SortCaseInsensitiveAction"
+              class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseInsensitiveAction"
+              text="Sort code (case insensitive)" description="Sort your code (case insetive)">
+        <keyboard-shortcut keymap="$default" first-keystroke="shift alt L"/>
+      </action>
+
+      <action id="CodeBlockSorter.SortCaseSensitive"
+              class="eu.osimowicz.plugins.intellij.actions.SortCodeBlockCaseSensitiveAction"
+              text="Sort code (case sensitive)" description="Sort your code (case sensitive)">
+      </action>
+    </group>
   </actions>
 
 </idea-plugin>
