@@ -276,5 +276,52 @@ public class CodeBlockSorterTest {
         String sortedText = sut.getSortedCode(codeLines, comparator);
         assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
     }
+
+    @Test
+    public void getSortedCodeWithAnnotations() {
+        ArrayList<String> codeLines = new ArrayList<String>() {{
+            add("private CodeBlockSorter sut;\n");
+            add("private Comparator<CodeBlock> comparator;\n");
+            add("\n");
+            add("@Before\n");
+            add("public void setUp() throws Exception {\n");
+            add("    ILineParserHelpers lineParserHelpers = new LineParserHelpers();\n");
+            add("    // @TODO do not use LineParserHelpers - write some mock\n");
+            add("    sut = new CodeBlockSorter(lineParserHelpers);\n");
+            add("    comparator = java.util.Comparator.comparing((codeBlock) ->\n");
+            add("        lineParserHelpers.getFirstCodeLine(codeBlock).toLowerCase()\n");
+            add("    );\n");
+            add("}\n");
+            add("\n");
+            add("@Test\n");
+            add("public void getSortedCodeSimpleCoffeeScriptCode() throws Exception {\n");
+            add("    string sampleStringVariable = \"test\";\n");
+            add("}\n");
+        }};
+
+        String sortedCode = "" +
+            "private Comparator<CodeBlock> comparator;\n" +
+            "private CodeBlockSorter sut;\n" +
+            "\n" +
+            "@Test\n" +
+            "public void getSortedCodeSimpleCoffeeScriptCode() throws Exception {\n" +
+            "    string sampleStringVariable = \"test\";\n" +
+            "}\n" +
+            "\n" +
+            "@Before\n" +
+            "public void setUp() throws Exception {\n" +
+            "    ILineParserHelpers lineParserHelpers = new LineParserHelpers();\n" +
+            "    // @TODO do not use LineParserHelpers - write some mock\n" +
+            "    sut = new CodeBlockSorter(lineParserHelpers);\n" +
+            "    comparator = java.util.Comparator.comparing((codeBlock) ->\n" +
+            "        lineParserHelpers.getFirstCodeLine(codeBlock).toLowerCase()\n" +
+            "    );\n" +
+            "}\n" +
+            "\n"
+            ;
+
+        String sortedText = sut.getSortedCode(codeLines, comparator);
+        assertEquals("Code should be sorted by first level modules", sortedCode, sortedText);
+    }
 }
 
